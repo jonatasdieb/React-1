@@ -1,0 +1,30 @@
+.jumbotron,
+			.btn,
+			input,
+			table,
+			select,
+			option {
+				border-radius: 0px !important;
+			}
+
+			table * {
+				text-align: center !important;
+			}
+
+			.bg-nav {
+				background-color: #215b98 !important;
+			}
+
+			.bg-table {
+				background-color: #76a8d4 !important;
+			}
+
+			.btn-succ {
+				color: #fff;
+				background-color: #1e7532;
+				border-color: #28a745;
+			}
+
+			.btn-despesas {
+				display: inline-block !important;
+			}
