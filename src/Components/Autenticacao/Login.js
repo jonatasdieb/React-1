@@ -10,6 +10,7 @@ class Login extends Component {
         super(props);
 
         this.state = {
+            isLoading: false,
             messages: false,
             errors: false
         }
@@ -17,17 +18,23 @@ class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
+
+        this.setState({
+            isLoading: true
+        })
+
         var username = this.refs.username.value;
         var password = this.refs.password.value;
-        
+
         userService.login("username=" + username + "&password=" + password + "&grant_type=password")
-            .then(res => {                
+            .then(res => {
                 saveToken(res.data.access_token);
             })
             .then(() =>
                 window.location.reload()
             ).catch(() => {
                 this.setState({
+                    isLoading: false,
                     errors: ["Dados de autenticação incorretos."]
                 })
             })
@@ -45,8 +52,8 @@ class Login extends Component {
             this.setState({
                 errors: false,
                 messages: messages,
-                isLoading: true
-            })            
+                isLoading: false
+            })
         }
     }
 
@@ -56,11 +63,11 @@ class Login extends Component {
             <section>
                 <div className="row justify-content-md-center">
 
-                <Messages messages={this.state.messages} errors={this.state.errors} />
+                    <Messages messages={this.state.messages} errors={this.state.errors} />
 
-                {/* modal de cadastro de usuários */}
-                <CadastrarUsuario getMessages={(messages, tipo) => this.showMessages(messages, tipo)} /> 
-                  
+                    {/* modal de cadastro de usuários */}
+                    <CadastrarUsuario getMessages={(messages, tipo) => this.showMessages(messages, tipo)} />
+
                 </div>
                 <div className="row justify-content-md-center">
                     <h3>Efetuar login</h3>
@@ -85,7 +92,13 @@ class Login extends Component {
                         </div>
                     </form>
                 </div>
-              
+                {
+                    this.state.isLoading &&
+                    <div className="progress">
+                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ "width": "100%" }}>Buscando seus dados...</div>
+                    </div>
+                }
+
             </section>
         )
     }
