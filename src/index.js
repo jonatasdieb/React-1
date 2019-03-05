@@ -5,13 +5,6 @@ import Login from './Components/Autenticacao/Login';
 import { isAuthenticated } from './Services/AuthService';
 import * as serviceWorker from './serviceWorker';
 
-// isAuthenticated()
-//     .then(() => {
-//         ReactDOM.render(<App />, document.getElementById('root'));
-//     }).catch(() => {
-       
-//     })
-
 if (isAuthenticated()){
     ReactDOM.render(<App />, document.getElementById('root'));
 } else {
