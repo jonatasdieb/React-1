@@ -1,7 +1,4 @@
-import api from './Api';
-
 export const TOKEN_KEY = "";
-export const login = (user) => api.post('User/Login', user);
 export const isAuthenticated = () => 
 {
    if (localStorage.getItem(TOKEN_KEY) !== null)

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { login, saveToken } from '../../Services/AuthService';
+import { saveToken } from '../../Services/AuthService';
+import userService from '../../Services/UserService';
+import CadastrarUsuario from './CadastrarUsuario';
+import Messages from '../../Features/ValidationMessages';
 
 class Login extends Component {
 
@@ -17,7 +20,7 @@ class Login extends Component {
         var username = this.refs.username.value;
         var password = this.refs.password.value;
         
-        login("username=" + username + "&password=" + password + "&grant_type=password")
+        userService.login("username=" + username + "&password=" + password + "&grant_type=password")
             .then(res => {                
                 saveToken(res.data.access_token);
             })
@@ -30,17 +33,34 @@ class Login extends Component {
             })
     }
 
+    showMessages = (messages, tipo) => {
+        if (tipo === 'nok') {
+            this.setState({
+                errors: messages,
+                messages: false
+            })
+        }
+
+        else if (tipo === 'ok') {
+            this.setState({
+                errors: false,
+                messages: messages,
+                isLoading: true
+            })            
+        }
+    }
+
+
     render() {
         return (
             <section>
                 <div className="row justify-content-md-center">
-                    {this.state.errors &&
-                        <div className="text-danger">
-                            <p>
-                                <b>{this.state.errors}</b>
-                            </p>
-                        </div>
-                    }
+
+                <Messages messages={this.state.messages} errors={this.state.errors} />
+
+                {/* modal de cadastro de usuários */}
+                <CadastrarUsuario getMessages={(messages, tipo) => this.showMessages(messages, tipo)} /> 
+                  
                 </div>
                 <div className="row justify-content-md-center">
                     <h3>Efetuar login</h3>
@@ -56,10 +76,16 @@ class Login extends Component {
                             <input type="password" className="form-control" ref='password' name="senha" id="senha" placeholder="Senha" />
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary" onClick={this.login}>Entrar</button>
+                            <button type="submit" className="btn btn-primary">
+                                Login <i class="fas fa-sign-in-alt text-white"></i>
+                            </button> &nbsp;
+                            <button type="button" className="btn btn-warning text-white" data-toggle="modal" data-target="#modalCadastrarUsuario">
+                                Cadastrar <i class="fas fa-user-plus text-white"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
+              
             </section>
         )
     }
