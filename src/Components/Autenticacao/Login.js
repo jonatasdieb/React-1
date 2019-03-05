@@ -28,7 +28,7 @@ class Login extends Component {
                 window.location.reload()
             ).catch(() => {
                 this.setState({
-                    errors: "Dados de autenticação incorretos."
+                    errors: ["Dados de autenticação incorretos."]
                 })
             })
     }
