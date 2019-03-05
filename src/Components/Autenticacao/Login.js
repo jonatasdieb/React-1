@@ -12,7 +12,8 @@ class Login extends Component {
         }
     }
 
-    login = () => {
+    login = (e) => {
+        e.preventDefault();
         var username = this.refs.username.value;
         var password = this.refs.password.value;
         
@@ -45,7 +46,7 @@ class Login extends Component {
                     <h3>Efetuar login</h3>
                 </div>
                 <div className="row justify-content-md-center">
-                    <form className="col-8">
+                    <form className="col-8" onSubmit={this.login}>
                         <div className="form-group">
                             <label>Usuário</label>
                             <input type="text" className="form-control" ref='username' name="usuario" id="usuario" placeholder="Usuário" />
@@ -55,7 +56,7 @@ class Login extends Component {
                             <input type="password" className="form-control" ref='password' name="senha" id="senha" placeholder="Senha" />
                         </div>
                         <div className="form-group">
-                            <input type="button" className="btn btn-primary" onClick={this.login} value='Login' />
+                            <button type="submit" className="btn btn-primary" onClick={this.login}>Entrar</button>
                         </div>
                     </form>
                 </div>
