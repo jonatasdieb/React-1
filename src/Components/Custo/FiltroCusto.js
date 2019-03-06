@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import custoService from '../../Services/CustoService';
 import funcionarioService from '../../Services/FuncionarioService';
+import { logout } from '../../Services/AuthService';
 
 class FiltroCusto extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class FiltroCusto extends Component {
             .then(res => this.props.filtrarCustos(res.data))
             .catch(e => {
                 if (e.response.status === 401)
-                    window.location.replace("/")
+                    logout()
             })
     }
 
@@ -26,7 +27,7 @@ class FiltroCusto extends Component {
             .then(res => this.props.filtrarCustos(res.data))
             .catch(e => {
                 if (e.response.status === 401)
-                    window.location.replace("/")
+                    logout()
             })
     }
 
@@ -35,7 +36,7 @@ class FiltroCusto extends Component {
             .then(res => this.props.filtrarCustos(res.data))
             .catch(e => {
                 if (e.response.status === 401)
-                    window.location.replace("/")
+                    logout()
             })
     }
 
@@ -45,7 +46,7 @@ class FiltroCusto extends Component {
             custoFiltro: res.data
         })).catch(e => {
             if (e.response.status === 401)
-                window.location.replace("/")
+                logout()
         })
     }
 
@@ -62,8 +63,10 @@ class FiltroCusto extends Component {
         }
     }
 
-    filtrar = () => {
-        if (this.state.tipoFiltro === 'funcionario') {           
+    filtrar = (e) => {
+        e.preventDefault();
+
+        if (this.state.tipoFiltro === 'funcionario') {
             this.loadCustoByFuncionarioId(this.refs.filtroId.value)
         }
         else if (this.state.tipoFiltro === 'descricao') {
@@ -82,7 +85,7 @@ class FiltroCusto extends Component {
 
     render() {
         return (
-            <form className='form-inline float-right'>
+            <form className='form-inline float-right' onSubmit={this.filtrar}>
                 Filtrar por: &nbsp;
             <div className='form-group'>
                     <select ref='filtro' onChange={this.onChange} className='custom-select'>
@@ -107,7 +110,7 @@ class FiltroCusto extends Component {
                         </div>
                     }
                 </div>&nbsp;
-            <button type='button' className="btn btn-default border-info" onClick={this.filtrar}>Filtrar</button>
+            <button type='submit' className="btn btn-default border-info">Filtrar</button>
             </form>
         )
     }
